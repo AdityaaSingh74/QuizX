@@ -1,9 +1,11 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
-import Database from 'better-sqlite3';
+import { createRequire } from 'module';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import path from 'path';
+
+const require = createRequire(import.meta.url);
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 
@@ -34,10 +36,26 @@ if (useSupabase) {
 }
 
 // Initialize SQLite Database (Fallback)
-const db = new Database('quizx.db');
+let db: any;
 
 if (!useSupabase) {
-  console.log('Using SQLite as the database backend.');
+  try {
+    const Database = require('better-sqlite3');
+    console.log('Using SQLite as the database backend.');
+    db = new Database('quizx.db');
+  } catch (err) {
+    console.error('\n======================================================');
+    console.error('❌ FAILED TO LOAD LOCAL SQLITE DATABASE ❌');
+    console.error('======================================================');
+    console.error('The better-sqlite3 package failed to load because it requires native C++ compilation on Windows.');
+    console.error('\nTo run the app, you have two options:');
+    console.error('  1. (Recommended) Bypass SQLite by using Supabase.');
+    console.error('     Create a free Supabase project and add SUPABASE_URL and SUPABASE_ANON_KEY to your .env file.');
+    console.error('\n  2. Install Visual Studio C++ Build Tools and Python to compile the database locally.');
+    console.error('======================================================\n');
+    process.exit(1);
+  }
+
   // Setup Tables
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -136,11 +154,11 @@ app.post('/api/auth/register', async (req, res) => {
   try {
     const hashedPassword = bcrypt.hashSync(password, 10);
     const id = crypto.randomUUID();
-    
+
     if (useSupabase) {
       const { data: existing } = await supabase.from('users').select('id').eq('email', email).single();
       if (existing) return res.status(400).json({ error: 'Email already exists' });
-      
+
       const { error } = await supabase.from('users').insert([{ id, email, password: hashedPassword, display_name, role: 'student' }]);
       if (error) throw error;
     } else {
@@ -148,7 +166,7 @@ app.post('/api/auth/register', async (req, res) => {
         id, email, hashedPassword, display_name, 'student'
       );
     }
-    
+
     const token = jwt.sign({ id, email, role: 'student' }, JWT_SECRET);
     res.json({ token, user: { id, email, display_name, role: 'student' } });
   } catch (err) {
@@ -159,7 +177,7 @@ app.post('/api/auth/register', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   let user: any;
-  
+
   if (useSupabase) {
     const { data } = await supabase.from('users').select('*').eq('email', email).single();
     user = data;
@@ -236,7 +254,7 @@ app.get('/api/quizzes/:id/questions', authenticateToken, async (req: any, res) =
   } else {
     questions = db.prepare('SELECT * FROM questions WHERE quiz_id = ?').all(req.params.id);
   }
-  
+
   // Hide correct_option for students
   if (req.user.role !== 'admin') {
     questions.forEach((q: any) => delete q.correct_option);
@@ -270,14 +288,14 @@ app.delete('/api/questions/:id', authenticateToken, requireAdmin, async (req: an
 app.post('/api/results', authenticateToken, async (req: any, res) => {
   const { quiz_id, answers } = req.body; // answers: { question_id: selected_option }
   let questions: any[] = [];
-  
+
   if (useSupabase) {
     const { data } = await supabase.from('questions').select('id, correct_option').eq('quiz_id', quiz_id);
     questions = data || [];
   } else {
     questions = db.prepare('SELECT id, correct_option FROM questions WHERE quiz_id = ?').all(quiz_id);
   }
-  
+
   let score = 0;
   questions.forEach(q => {
     if (answers[q.id] === q.correct_option) {
@@ -305,7 +323,7 @@ app.get('/api/results', authenticateToken, async (req: any, res) => {
         .from('results')
         .select('*, quizzes(title), users(display_name)')
         .order('created_at', { ascending: false });
-      
+
       results = data?.map((r: any) => ({
         ...r,
         quiz_title: r.quizzes?.title,
@@ -317,7 +335,7 @@ app.get('/api/results', authenticateToken, async (req: any, res) => {
         .select('*, quizzes(title)')
         .eq('user_id', req.user.id)
         .order('created_at', { ascending: false });
-        
+
       results = data?.map((r: any) => ({
         ...r,
         quiz_title: r.quizzes?.title
