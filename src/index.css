@@ -1,32 +1,58 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+
+  /* Custom Pinterest-style soft shadows */
+  --shadow-glass: 0 20px 50px rgba(8, 112, 184, 0.07), 0 10px 20px rgba(0, 0, 0, 0.03);
+  --shadow-button: 0 10px 25px rgba(0, 0, 0, 0.05);
+
   --animate-shimmer: shimmer 1.5s infinite;
-  --animate-blob: blob 7s infinite;
+  
+  /* Aurora gradient animations */
+  --animate-aurora-1: aurora-1 15s ease-in-out infinite alternate;
+  --animate-aurora-2: aurora-2 20s ease-in-out infinite alternate;
+  --animate-aurora-3: aurora-3 25s ease-in-out infinite alternate;
+
   @keyframes shimmer {
     100% {
       transform: translateX(100%);
     }
   }
-  @keyframes blob {
-    0% {
-      transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-      transform: translate(0px, 0px) scale(1);
-    }
+
+  @keyframes aurora-1 {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    50% { transform: translate(20vw, -10vh) scale(1.2); opacity: 0.8; }
+    100% { transform: translate(-10vw, 20vh) scale(1); opacity: 0.6; }
+  }
+
+  @keyframes aurora-2 {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50% { transform: translate(-30vw, 15vh) scale(1.3); opacity: 0.7; }
+    100% { transform: translate(15vw, -20vh) scale(1); opacity: 0.5; }
+  }
+
+  @keyframes aurora-3 {
+    0% { transform: translate(0, 0) scale(1.1); opacity: 0.6; }
+    50% { transform: translate(10vw, 25vh) scale(0.9); opacity: 0.8; }
+    100% { transform: translate(-20vw, -10vh) scale(1.2); opacity: 0.6; }
   }
 }
 
-.animation-delay-2000 {
-  animation-delay: 2s;
+body {
+  background-color: #FAFAFA;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  color: #334155; /* slate-700 */
 }
-.animation-delay-4000 {
-  animation-delay: 4s;
+
+/* Base utility for glass cards */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-glass);
 }
+

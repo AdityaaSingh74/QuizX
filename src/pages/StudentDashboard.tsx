@@ -38,76 +38,101 @@ export default function StudentDashboard() {
   );
 
   const totalAttempted = results.length;
-  const averageScore = totalAttempted > 0 
-    ? Math.round((results.reduce((acc, r) => acc + (r.score / r.total), 0) / totalAttempted) * 100) 
+  const averageScore = totalAttempted > 0
+    ? Math.round((results.reduce((acc, r) => acc + (r.score / r.total), 0) / totalAttempted) * 100)
     : 0;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="glass-panel rounded-[2.5rem] p-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border-t-2 border-white/80">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-pink-300/40 to-transparent rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-indigo-300/40 to-transparent rounded-full mix-blend-multiply filter blur-2xl opacity-50 pointer-events-none"></div>
+
+        <div className="relative z-10 w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-extrabold mb-2">Welcome back, {user?.display_name}! 👋</h1>
-            <p className="text-indigo-100 text-lg">Ready to test your knowledge today?</p>
+            <h1 className="text-4xl font-serif font-extrabold mb-3 text-slate-800 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-900 to-slate-900">
+              Welcome back, {user?.display_name}! <span className="inline-block animate-bounce origin-bottom">👋</span>
+            </h1>
+            <p className="text-slate-500 text-lg font-medium">Ready to test your knowledge today?</p>
           </div>
-          <div className="flex gap-4">
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 text-center min-w-[120px]">
-              <div className="flex items-center justify-center gap-2 text-indigo-100 mb-1">
-                <Target className="w-4 h-4" />
-                <span className="text-sm font-medium uppercase tracking-wider">Quizzes</span>
+          <div className="flex gap-4 w-full md:w-auto">
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-5 text-center flex-1 md:min-w-[130px] border border-white shadow-sm">
+              <div className="flex items-center justify-center gap-2 text-indigo-500 mb-2">
+                <Target className="w-5 h-5" />
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Quizzes</span>
               </div>
-              <p className="text-3xl font-bold">{totalAttempted}</p>
+              <p className="text-4xl font-extrabold text-slate-800">{totalAttempted}</p>
             </div>
-            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 text-center min-w-[120px]">
-              <div className="flex items-center justify-center gap-2 text-indigo-100 mb-1">
-                <Trophy className="w-4 h-4" />
-                <span className="text-sm font-medium uppercase tracking-wider">Avg Score</span>
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-5 text-center flex-1 md:min-w-[130px] border border-white shadow-sm">
+              <div className="flex items-center justify-center gap-2 text-pink-500 mb-2">
+                <Trophy className="w-5 h-5" />
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Avg Score</span>
               </div>
-              <p className="text-3xl font-bold">{averageScore}%</p>
+              <p className="text-4xl font-extrabold text-slate-800">{averageScore}%</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
+      <div>
+        <div className="flex items-center justify-between mb-8 pl-2">
+          <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-3 font-serif">
+            <div className="p-2.5 bg-indigo-100 rounded-2xl text-indigo-500 shadow-sm border border-white">
               <BookOpen className="w-6 h-6" />
             </div>
-            Available Quizzes
+            Explore Quizzes
           </h2>
         </div>
-        
+
         {quizzes.length === 0 ? (
-          <div className="text-center py-12 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-            <BookOpen className="mx-auto h-12 w-12 text-slate-400 mb-3" />
-            <p className="text-slate-500 font-medium">No quizzes available at the moment.</p>
-            <p className="text-sm text-slate-400 mt-1">Check back later for new content!</p>
+          <div className="text-center py-16 glass-panel rounded-[2.5rem]">
+            <BookOpen className="mx-auto h-16 w-16 text-slate-300 mb-4" />
+            <p className="text-slate-500 font-bold text-lg">No quizzes available at the moment.</p>
+            <p className="text-sm text-slate-400 mt-2 font-medium">Check back later for new content!</p>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {quizzes.map((quiz) => {
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            {quizzes.map((quiz, index) => {
               const hasAttempted = results.some(r => r.quiz_id === quiz.id);
+              // Generate a slight random height for masonry effect based on index
+              const heights = ['h-64', 'h-72', 'h-80', 'h-64', 'h-72'];
+              const customHeight = heights[index % heights.length];
+
+              // Generate random pastel backgrounds
+              const bgColors = [
+                'bg-gradient-to-br from-indigo-50 to-pink-50',
+                'bg-gradient-to-br from-emerald-50 to-teal-50',
+                'bg-gradient-to-br from-orange-50 to-rose-50',
+                'bg-gradient-to-br from-blue-50 to-indigo-50',
+                'bg-gradient-to-br from-purple-50 to-pink-50'
+              ];
+              const customBg = bgColors[index % bgColors.length];
+
               return (
-                <div key={quiz.id} className="group relative bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-xl hover:border-indigo-200 transition-all duration-300 flex flex-col">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">{quiz.title}</h3>
-                    <p className="text-gray-500 text-sm mb-6 line-clamp-3">{quiz.description}</p>
+                <div key={quiz.id} className={`group relative break-inside-avoid ${customBg} border-[3px] border-white rounded-[2.5rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(8,112,184,0.1)] transition-all duration-300 flex flex-col justify-between hover:-translate-y-2 overflow-hidden ${customHeight}`}>
+                  {/* Decorative faint pattern */}
+                  <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white/40 rounded-full blur-2xl"></div>
+
+                  <div className="relative z-10">
+                    <div className="flex justify-between items-start mb-4">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${hasAttempted ? 'bg-slate-200/50 text-slate-600' : 'bg-indigo-100 text-indigo-700'}`}>
+                        {hasAttempted ? 'Completed' : 'New'}
+                      </span>
+                    </div>
+                    <h3 className="font-serif font-bold text-2xl text-slate-800 mb-3 group-hover:text-indigo-600 transition-colors leading-tight">{quiz.title}</h3>
+                    <p className="text-slate-500 text-sm mb-6 line-clamp-3 font-medium leading-relaxed">{quiz.description}</p>
                   </div>
+
                   <Link
                     to={`/quiz/${quiz.id}`}
-                    className={`inline-flex items-center justify-center w-full px-4 py-3 text-sm font-semibold rounded-xl transition-all ${
-                      hasAttempted 
-                        ? 'bg-slate-50 text-indigo-600 border border-slate-200 hover:bg-indigo-50 hover:border-indigo-200'
-                        : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md hover:shadow-lg'
-                    }`}
+                    className={`relative z-10 w-fit inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-full transition-all ${hasAttempted
+                        ? 'bg-white/80 text-slate-700 hover:bg-white hover:text-indigo-600'
+                        : 'bg-slate-900 text-white hover:bg-indigo-600 shadow-md hover:shadow-lg'
+                      }`}
                   >
                     {hasAttempted ? 'Retake Quiz' : 'Start Quiz'}
-                    <PlayCircle className="w-4 h-4 ml-2" />
+                    <PlayCircle className="w-5 h-5 ml-2" />
                   </Link>
                 </div>
               );
@@ -116,60 +141,45 @@ export default function StudentDashboard() {
         )}
       </div>
 
-      <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-          <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
+      <div className="glass-panel p-10 rounded-[2.5rem] mt-12 relative overflow-hidden">
+        <h2 className="text-2xl font-bold text-slate-800 mb-8 flex items-center gap-3 font-serif relative z-10">
+          <div className="p-2.5 bg-yellow-100 rounded-2xl text-yellow-600 shadow-sm border border-white">
             <Clock className="w-6 h-6" />
           </div>
           Your Recent Attempts
         </h2>
-        
+
         {results.length === 0 ? (
-          <div className="text-center py-12 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-            <Clock className="mx-auto h-12 w-12 text-slate-400 mb-3" />
-            <p className="text-slate-500 font-medium">You haven't attempted any quizzes yet.</p>
+          <div className="text-center py-16 bg-white/40 rounded-3xl border-2 border-dashed border-slate-200 relative z-10">
+            <Clock className="mx-auto h-16 w-16 text-slate-300 mb-4" />
+            <p className="text-slate-500 font-bold text-lg">You haven't attempted any quizzes yet.</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-gray-200">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Quiz</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Score</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {results.map((result) => {
-                  const percentage = Math.round((result.score / result.total) * 100);
-                  return (
-                    <tr key={result.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                        {result.quiz_title}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="flex items-center gap-3">
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-xs ${
-                            percentage >= 80 ? 'bg-green-100 text-green-800' : 
-                            percentage >= 50 ? 'bg-yellow-100 text-yellow-800' : 
-                            'bg-red-100 text-red-800'
-                          }`}>
-                            <CheckCircle className="w-3 h-3" />
-                            {result.score} / {result.total}
-                          </span>
-                          <span className="text-gray-400 font-medium">{percentage}%</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">
-                        {new Date(result.created_at).toLocaleDateString(undefined, { 
-                          year: 'numeric', month: 'short', day: 'numeric' 
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div className="grid gap-4 relative z-10">
+            {results.map((result) => {
+              const percentage = Math.round((result.score / result.total) * 100);
+              const isExcellent = percentage >= 80;
+              const isGood = percentage >= 50 && percentage < 80;
+
+              return (
+                <div key={result.id} className="bg-white/60 hover:bg-white p-5 rounded-3xl border border-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg ${isExcellent ? 'bg-green-100 text-green-600' : isGood ? 'bg-yellow-100 text-yellow-600' : 'bg-rose-100 text-rose-600'}`}>
+                      {percentage}%
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-800 font-serif">{result.quiz_title}</h4>
+                      <p className="text-sm text-slate-500 font-medium">{new Date(result.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-2xl w-max">
+                    <span className="text-sm font-bold text-slate-700">{result.score} correct</span>
+                    <span className="text-slate-300">/</span>
+                    <span className="text-sm font-medium text-slate-500">{result.total} total</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

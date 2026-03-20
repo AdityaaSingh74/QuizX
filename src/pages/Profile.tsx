@@ -33,44 +33,45 @@ export default function Profile() {
   if (!user) return null;
 
   return (
-    <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <div className="bg-white shadow-xl rounded-3xl border border-gray-100 overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
-        
-        <div className="px-6 py-8 sm:p-10 relative z-10 mt-12">
-          <div className="flex flex-col items-center gap-4 mb-10">
-            <div className="bg-white p-2 rounded-full shadow-lg border-4 border-white">
-              <div className="bg-indigo-100 p-6 rounded-full">
+    <div className="max-w-2xl mx-auto py-20 px-4 sm:px-6 lg:px-8 relative">
+      <div className="glass-panel rounded-[3rem] overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.05)] border-2 border-white/80 p-8 sm:p-12">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 -z-10 animate-blob"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 -z-10 animate-blob animation-delay-2000"></div>
+
+        <div className="relative z-10 mt-6">
+          <div className="flex flex-col items-center gap-4 mb-12">
+            <div className="bg-white/60 p-2 rounded-[2rem] shadow-sm border border-white backdrop-blur-sm">
+              <div className="bg-gradient-to-br from-indigo-100 to-pink-100 p-6 rounded-[1.5rem]">
                 <User className="w-12 h-12 text-indigo-600" />
               </div>
             </div>
             <div className="text-center">
-              <h2 className="text-3xl font-extrabold text-gray-900">Your Profile</h2>
-              <p className="text-base text-gray-500 mt-1">Manage your account settings</p>
+              <h2 className="text-4xl font-serif font-extrabold text-slate-800 tracking-tight">Your Profile</h2>
+              <p className="text-lg text-slate-500 mt-2 font-medium">Manage your account settings</p>
             </div>
           </div>
 
-          <form onSubmit={handleUpdate} className="space-y-6 max-w-md mx-auto">
+          <form onSubmit={handleUpdate} className="space-y-8 max-w-md mx-auto">
             {message && (
-              <div className={`p-4 rounded-xl text-sm font-medium flex items-center gap-3 ${isError ? 'bg-red-50 text-red-800 border border-red-100' : 'bg-green-50 text-green-800 border border-green-100'}`}>
-                {isError ? <AlertCircle className="w-5 h-5 flex-shrink-0" /> : <CheckCircle className="w-5 h-5 flex-shrink-0" />}
+              <div className={`p-5 rounded-2xl text-sm font-bold flex items-center gap-3 backdrop-blur-md ${isError ? 'bg-red-50/80 text-red-800 border-[2px] border-red-100' : 'bg-green-50/80 text-emerald-800 border-[2px] border-green-100'}`}>
+                {isError ? <AlertCircle className="w-6 h-6 flex-shrink-0" /> : <CheckCircle className="w-6 h-6 flex-shrink-0" />}
                 {message}
               </div>
             )}
 
             <div>
-              <label htmlFor="display_name" className="block text-sm font-bold text-gray-700 mb-2">
+              <label htmlFor="display_name" className="block text-sm font-bold text-slate-700 mb-2 px-1">
                 Display Name
               </label>
-              <div className="relative rounded-xl shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
+              <div className="relative rounded-2xl shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                  <User className="h-6 w-6 text-slate-400" />
                 </div>
                 <input
                   type="text"
                   name="display_name"
                   id="display_name"
-                  className="focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-11 sm:text-sm border-gray-300 rounded-xl py-3.5 border transition-shadow"
+                  className="focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-400 block w-full pl-14 sm:text-base border-white bg-white/60 hover:bg-white rounded-[1.5rem] py-4 border-[2px] transition-all font-medium text-slate-800 shadow-sm"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   required
@@ -79,46 +80,49 @@ export default function Profile() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-sm font-bold text-slate-700 mb-2 px-1">
                 Email Address
               </label>
-              <div className="relative rounded-xl shadow-sm opacity-70">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+              <div className="relative rounded-2xl shadow-sm opacity-60">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                  <Mail className="h-6 w-6 text-slate-400" />
                 </div>
                 <input
                   type="email"
                   disabled
-                  className="bg-slate-50 block w-full pl-11 sm:text-sm border-slate-200 rounded-xl py-3.5 border text-slate-500 cursor-not-allowed"
+                  className="block w-full pl-14 sm:text-base border-white bg-slate-50 rounded-[1.5rem] py-4 border-[2px] text-slate-500 cursor-not-allowed font-medium shadow-sm"
                   value={user.email}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-sm font-bold text-slate-700 mb-2 px-1">
                 Role
               </label>
-              <div className="relative rounded-xl shadow-sm opacity-70">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Shield className="h-5 w-5 text-gray-400" />
+              <div className="relative rounded-2xl shadow-sm opacity-60">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                  <Shield className="h-6 w-6 text-slate-400" />
                 </div>
                 <input
                   type="text"
                   disabled
-                  className="bg-slate-50 block w-full pl-11 sm:text-sm border-slate-200 rounded-xl py-3.5 border text-slate-500 cursor-not-allowed uppercase font-semibold"
+                  className="block w-full pl-14 sm:text-base border-white bg-slate-50 rounded-[1.5rem] py-4 border-[2px] text-slate-500 cursor-not-allowed uppercase tracking-wider font-bold shadow-sm"
                   value={user.role}
                 />
               </div>
             </div>
 
-            <div className="pt-6">
+            <div className="pt-8">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-md text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-all hover:shadow-lg hover:-translate-y-0.5"
+                className="w-full flex justify-center py-5 px-6 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] text-lg font-bold text-white bg-slate-900 hover:bg-slate-800 hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] focus:outline-none focus:ring-4 focus:ring-slate-900/30 disabled:opacity-50 transition-all hover:-translate-y-1 relative overflow-hidden group"
               >
-                {loading ? 'Saving Changes...' : 'Save Changes'}
+                <span className="relative z-10">{loading ? 'Saving Changes...' : 'Save Changes'}</span>
+                {!loading && (
+                  <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-0"></div>
+                )}
               </button>
             </div>
           </form>

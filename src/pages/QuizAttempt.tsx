@@ -93,18 +93,21 @@ export default function QuizAttempt() {
 
   if (error) {
     return (
-      <div className="max-w-md mx-auto text-center py-16 px-6 bg-white rounded-3xl shadow-xl border border-red-100 mt-10">
-        <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <AlertCircle className="w-10 h-10 text-red-500" />
+      <div className="max-w-md mx-auto text-center py-16 px-8 glass-panel rounded-[2.5rem] mt-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-red-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
+        <div className="relative z-10">
+          <div className="w-24 h-24 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-8 transform -rotate-6 hover:rotate-0 transition-all shadow-sm">
+            <AlertCircle className="w-12 h-12 text-red-500" />
+          </div>
+          <h2 className="text-3xl font-serif font-bold text-slate-800 mb-4 tracking-tight">Oops!</h2>
+          <p className="text-slate-500 mb-10 font-medium">{error}</p>
+          <button
+            onClick={() => navigate('/')}
+            className="inline-flex items-center justify-center w-full px-8 py-4 text-sm font-bold rounded-full text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:-translate-y-1"
+          >
+            <ArrowLeft className="w-5 h-5 mr-3" /> Return to Dashboard
+          </button>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">Oops! Something went wrong</h2>
-        <p className="text-gray-600 mb-8">{error}</p>
-        <button 
-          onClick={() => navigate('/')} 
-          className="inline-flex items-center justify-center w-full px-6 py-3 text-base font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg"
-        >
-          <ArrowLeft className="w-5 h-5 mr-2" /> Return to Dashboard
-        </button>
       </div>
     );
   }
@@ -114,34 +117,40 @@ export default function QuizAttempt() {
     const isSuccess = percentage >= 70;
 
     return (
-      <div className="max-w-xl mx-auto text-center py-16 px-8 bg-white rounded-3xl shadow-xl border border-gray-100 mt-10 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-indigo-50 to-white"></div>
-        
+      <div className="max-w-2xl mx-auto text-center py-20 px-10 glass-panel rounded-[3rem] mt-16 relative overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.05)] border-2 border-white/80">
+        <div className={`absolute top-0 right-0 w-64 h-64 rounded-full mix-blend-multiply filter blur-3xl opacity-40 pointer-events-none ${isSuccess ? 'bg-green-200' : 'bg-yellow-200'}`}></div>
+        <div className={`absolute bottom-0 left-0 w-48 h-48 rounded-full mix-blend-multiply filter blur-2xl opacity-40 pointer-events-none ${isSuccess ? 'bg-emerald-200' : 'bg-orange-200'}`}></div>
+
         <div className="relative z-10">
-          <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 shadow-lg ${isSuccess ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600'}`}>
-            {isSuccess ? <Trophy className="w-12 h-12" /> : <CheckCircle className="w-12 h-12" />}
+          <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Quiz Result</p>
+          <div className={`w-32 h-32 mx-auto rounded-[2rem] flex items-center justify-center mb-10 shadow-lg transform rotate-6 hover:rotate-12 transition-all duration-300 border-4 border-white ${isSuccess ? 'bg-gradient-to-br from-green-100 to-emerald-100 text-emerald-600' : 'bg-gradient-to-br from-yellow-100 to-orange-100 text-orange-500'}`}>
+            {isSuccess ? <Trophy className="w-16 h-16 drop-shadow-sm" /> : <CheckCircle className="w-16 h-16 drop-shadow-sm" />}
           </div>
-          
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Quiz Completed!</h2>
-          <p className="text-lg text-gray-500 mb-8">Here's how you did</p>
-          
-          <div className="bg-slate-50 rounded-2xl p-8 mb-8 border border-slate-100">
-            <div className="flex justify-center items-end gap-2 mb-2">
-              <span className={`text-6xl font-black ${isSuccess ? 'text-green-600' : 'text-yellow-600'}`}>
+
+          <h2 className="text-5xl font-serif font-extrabold text-slate-800 mb-4 tracking-tight">
+            {isSuccess ? 'Outstanding!' : 'Good Effort!'}
+          </h2>
+          <p className="text-xl text-slate-500 mb-12 font-medium">Here's how you performed</p>
+
+          <div className="bg-white/60 backdrop-blur-md rounded-[2.5rem] p-10 mb-12 border border-white shadow-sm inline-block min-w-[300px]">
+            <div className="flex justify-center items-end gap-2 mb-4">
+              <span className={`text-8xl font-black tracking-tighter ${isSuccess ? 'text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-green-600' : 'text-transparent bg-clip-text bg-gradient-to-br from-yellow-500 to-orange-500'}`}>
                 {percentage}%
               </span>
             </div>
-            <p className="text-gray-600 font-medium text-lg">
-              You scored <span className="font-bold text-gray-900">{result.score}</span> out of <span className="font-bold text-gray-900">{result.total}</span>
+            <p className="text-slate-500 font-medium text-lg uppercase tracking-wide">
+              Score: <span className="font-bold text-slate-900">{result.score}</span> / {result.total}
             </p>
           </div>
 
-          <button
-            onClick={() => navigate('/')}
-            className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" /> Back to Dashboard
-          </button>
+          <div>
+            <button
+              onClick={() => navigate('/')}
+              className="inline-flex items-center justify-center w-full sm:w-auto px-10 py-5 text-sm font-bold rounded-full text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md hover:shadow-xl hover:-translate-y-1"
+            >
+              <ArrowLeft className="w-5 h-5 mr-3" /> Back to Dashboard
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -149,96 +158,94 @@ export default function QuizAttempt() {
 
   if (questions.length === 0) {
     return (
-      <div className="max-w-md mx-auto text-center py-16 px-6 bg-white rounded-3xl shadow-xl border border-gray-100 mt-10">
-        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <HelpCircle className="w-10 h-10 text-gray-400" />
+      <div className="max-w-md mx-auto text-center py-16 px-8 glass-panel rounded-[2.5rem] mt-16">
+        <div className="w-24 h-24 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner border border-white">
+          <HelpCircle className="w-12 h-12 text-slate-400" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">No Questions Yet</h2>
-        <p className="text-gray-600 mb-8">This quiz doesn't have any questions configured.</p>
-        <button 
-          onClick={() => navigate('/')} 
-          className="inline-flex items-center justify-center w-full px-6 py-3 text-base font-medium rounded-xl text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition-all"
+        <h2 className="text-3xl font-serif font-bold text-slate-800 mb-4 tracking-tight">No Questions Yet</h2>
+        <p className="text-slate-500 mb-10 font-medium">This quiz doesn't have any questions configured.</p>
+        <button
+          onClick={() => navigate('/')}
+          className="inline-flex items-center justify-center w-full px-8 py-4 text-sm font-bold rounded-full text-slate-700 bg-white hover:bg-slate-50 transition-all shadow-sm border border-slate-200"
         >
-          <ArrowLeft className="w-5 h-5 mr-2" /> Return to Dashboard
+          <ArrowLeft className="w-5 h-5 mr-3" /> Return to Dashboard
         </button>
       </div>
     );
   }
 
   const answeredCount = Object.keys(answers).length;
-  const progressPercentage = Math.round((answeredCount / questions.length) * 100);
+  const progressPercentage = questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0;
 
   return (
-    <div className="max-w-3xl mx-auto pb-12">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-20 bg-slate-50/80 backdrop-blur-md py-4 mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
-        <div className="flex items-center justify-between mb-4">
-          <button 
-            onClick={() => navigate('/')} 
-            className="text-gray-500 hover:text-indigo-600 flex items-center gap-2 transition-colors font-medium bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 hover:border-indigo-200"
+    <div className="max-w-3xl mx-auto pb-20 relative px-4 sm:px-0 mt-4">
+      {/* Floating Header */}
+      <div className="sticky top-6 z-30 glass-panel rounded-full py-4 px-6 mb-12 border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.06)] backdrop-blur-xl">
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => navigate('/')}
+            className="text-slate-500 hover:text-indigo-600 flex items-center gap-2 transition-colors font-bold bg-white/60 px-5 py-2.5 rounded-full shadow-sm hover:bg-white"
           >
-            <ArrowLeft className="w-4 h-4" /> Exit Quiz
+            <ArrowLeft className="w-5 h-5" /> <span className="hidden sm:inline">Exit</span>
           </button>
 
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-lg shadow-sm border font-bold ${timeLeft < 60 ? 'bg-red-50 border-red-200 text-red-600 animate-pulse' : 'bg-white border-gray-200 text-gray-700'}`}>
-            <Clock className="w-4 h-4" />
-            <span>{formatTime(timeLeft)}</span>
+          <div className="flex-1 px-8 hidden md:block">
+            {/* Minimal Progress Bar */}
+            <div className="w-full bg-slate-200/50 rounded-full h-2 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-indigo-500 to-pink-500 h-full rounded-full transition-all duration-700 ease-spring"
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200">
-            <CheckCircle className={`w-4 h-4 ${answeredCount === questions.length ? 'text-green-500' : 'text-gray-400'}`} />
-            <span className="text-sm font-bold text-gray-700 hidden sm:inline">
-              {answeredCount} <span className="text-gray-400 font-medium">/ {questions.length} Answered</span>
-            </span>
-            <span className="text-sm font-bold text-gray-700 sm:hidden">
-              {answeredCount}/{questions.length}
-            </span>
+          <div className="flex items-center gap-3">
+            <div className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold transition-colors shadow-sm ${timeLeft < 60 ? 'bg-red-50 text-red-600 animate-pulse border-red-100' : 'bg-white/80 text-slate-700 border-white'}`}>
+              <Clock className="w-5 h-5" />
+              <span>{formatTime(timeLeft)}</span>
+            </div>
+
+            <div className="flex items-center justify-center w-12 h-12 bg-white/80 rounded-full shadow-sm border border-white">
+              <span className="text-sm font-bold text-slate-700">
+                {progressPercentage}%
+              </span>
+            </div>
           </div>
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-          <div 
-            className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out" 
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
         </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-12">
         {questions.map((q, index) => (
-          <div key={q.id} className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+          <div key={q.id} className="glass-panel p-8 sm:p-12 rounded-[2.5rem] border-[3px] border-white relative">
             {/* Question Number Badge */}
-            <div className="absolute top-0 left-0 w-12 h-12 bg-indigo-50 rounded-br-3xl flex items-center justify-center">
-              <span className="text-indigo-600 font-bold">{index + 1}</span>
+            <div className="absolute top-8 left-8 w-12 h-12 bg-gradient-to-br from-indigo-100 to-pink-100 rounded-2xl flex items-center justify-center border border-white shadow-sm transform -rotate-3">
+              <span className="text-indigo-600 font-bold text-xl">{index + 1}</span>
             </div>
-            
-            <h3 className="text-xl font-semibold text-gray-900 mb-6 mt-4 sm:mt-0 sm:ml-8 leading-relaxed">
+
+            <h3 className="text-2xl font-serif font-bold text-slate-800 mb-10 pl-16 sm:pl-20 leading-snug">
               {q.text}
             </h3>
-            
-            <div className="grid gap-3 sm:grid-cols-2">
+
+            <div className="grid gap-4 sm:grid-cols-2">
               {['option_a', 'option_b', 'option_c', 'option_d'].map((optKey, optIndex) => {
                 const isSelected = answers[q.id] === optKey;
                 const optionLetter = String.fromCharCode(65 + optIndex); // A, B, C, D
-                
+
                 return (
                   <label
                     key={optKey}
-                    className={`group relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 ${
-                      isSelected
-                        ? 'border-indigo-600 bg-indigo-50/50 shadow-md shadow-indigo-100/50'
-                        : 'border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
-                    }`}
+                    className={`group relative flex items-center p-5 border-2 rounded-[2rem] cursor-pointer transition-all duration-300 ${isSelected
+                      ? 'border-indigo-400 bg-white/80 shadow-[0_10px_30px_rgba(99,102,241,0.15)] transform scale-[1.02]'
+                      : 'border-transparent bg-white/40 hover:bg-white hover:border-indigo-100 hover:shadow-md'
+                      }`}
                   >
-                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mr-4 border-2 transition-colors ${
-                      isSelected 
-                        ? 'border-indigo-600 bg-indigo-600 text-white' 
-                        : 'border-gray-300 text-gray-500 group-hover:border-indigo-400'
-                    }`}>
-                      <span className="text-sm font-bold">{optionLetter}</span>
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center mr-5 border-2 transition-colors ${isSelected
+                      ? 'border-indigo-500 bg-indigo-500 text-white'
+                      : 'border-white bg-slate-100 text-slate-400 group-hover:border-indigo-300 group-hover:bg-indigo-50 group-hover:text-indigo-500'
+                      }`}>
+                      <span className="text-base font-bold">{optionLetter}</span>
                     </div>
-                    
+
                     <input
                       type="radio"
                       name={`question-${q.id}`}
@@ -247,14 +254,13 @@ export default function QuizAttempt() {
                       onChange={() => handleOptionSelect(q.id, optKey)}
                       className="sr-only" // Hide the actual radio button
                     />
-                    <span className={`text-base flex-1 ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
+                    <span className={`text-lg flex-1 font-medium transition-colors ${isSelected ? 'text-indigo-900' : 'text-slate-600'}`}>
                       {q[optKey]}
                     </span>
-                    
-                    {/* Selected Indicator */}
-                    <div className={`absolute right-4 w-4 h-4 rounded-full transition-transform duration-200 ${
-                      isSelected ? 'scale-100 bg-indigo-600' : 'scale-0'
-                    }`}></div>
+
+                    {/* Selected Indicator Ring */}
+                    <div className={`absolute inset-0 border-2 rounded-[2rem] pointer-events-none transition-all duration-300 ${isSelected ? 'border-indigo-400 scale-100 opacity-100' : 'border-transparent scale-95 opacity-0'
+                      }`}></div>
                   </label>
                 );
               })}
@@ -263,17 +269,16 @@ export default function QuizAttempt() {
         ))}
       </div>
 
-      <div className="mt-12 flex justify-center sm:justify-end">
+      <div className="mt-16 flex justify-center sticky bottom-8 z-30">
         <button
           onClick={() => handleSubmit(false)}
           disabled={submitting}
-          className={`relative overflow-hidden group px-10 py-4 text-white font-bold text-lg rounded-2xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-500/30 ${
-            submitting ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
-          }`}
+          className={`relative overflow-hidden group px-12 py-5 text-white font-bold text-lg rounded-full transition-all shadow-[0_10px_40px_rgba(0,0,0,0.2)] hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-slate-900/30 w-full sm:w-auto ${submitting ? 'bg-slate-500 cursor-not-allowed' : 'bg-slate-900 hover:bg-slate-800 hover:shadow-[0_15px_50px_rgba(0,0,0,0.3)]'
+            }`}
         >
-          <span className="relative z-10 flex items-center gap-2">
-            {submitting ? 'Submitting...' : 'Submit Quiz'}
-            {!submitting && <CheckCircle className="w-5 h-5" />}
+          <span className="relative z-10 flex items-center justify-center gap-3 tracking-wide">
+            {submitting ? 'Submitting...' : 'Complete Quiz'}
+            {!submitting && <CheckCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />}
           </span>
           {/* Shine effect */}
           {!submitting && (

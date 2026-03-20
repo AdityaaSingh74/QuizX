@@ -38,63 +38,58 @@ export default function Login() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-      {/* Background Elements */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-      <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+      <div className="max-w-md w-full space-y-8 glass-panel p-10 rounded-[2.5rem] relative z-10 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 via-indigo-400 to-teal-400"></div>
 
-      <div className="max-w-md w-full space-y-8 bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/50 relative z-10 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-        
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-6 transform -rotate-3 hover:rotate-0 transition-transform">
-            <BookOpen className="h-8 w-8 text-indigo-600" />
+          <div className="mx-auto h-20 w-20 bg-gradient-to-br from-indigo-100 to-pink-100 rounded-3xl flex items-center justify-center mb-6 transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 shadow-sm border border-white">
+            <BookOpen className="h-10 w-10 text-indigo-500 drop-shadow-sm" />
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Welcome back</h2>
-          <p className="mt-3 text-sm text-gray-500">
+          <h2 className="text-4xl font-serif font-bold text-slate-800 tracking-tight">Welcome</h2>
+          <p className="mt-3 text-sm text-slate-500">
             Don't have an account?{' '}
-            <Link to="/register" className="font-bold text-indigo-600 hover:text-indigo-500 transition-colors">
+            <Link to="/register" className="font-bold text-indigo-500 hover:text-pink-500 transition-colors">
               Sign up here
             </Link>
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-sm text-center font-medium animate-pulse">
               {error}
             </div>
           )}
-          
+
           <div className="space-y-4">
-            <div className="relative">
+            <div className="relative group">
               <label htmlFor="email-address" className="sr-only">Email address</label>
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-400" />
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                <Mail className="h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
               </div>
               <input
                 id="email-address"
                 name="email"
                 type="email"
                 required
-                className="appearance-none relative block w-full pl-11 pr-4 py-3.5 border border-gray-200 placeholder-gray-400 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-all bg-white/50"
+                className="appearance-none relative block w-full pl-12 pr-4 py-4 border-2 border-transparent bg-white/60 placeholder-slate-400 text-slate-800 rounded-full focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-400 focus:bg-white sm:text-sm transition-all shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.05)]"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            
-            <div className="relative">
+
+            <div className="relative group">
               <label htmlFor="password" className="sr-only">Password</label>
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-400" />
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
               </div>
               <input
                 id="password"
                 name="password"
                 type="password"
                 required
-                className="appearance-none relative block w-full pl-11 pr-4 py-3.5 border border-gray-200 placeholder-gray-400 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-all bg-white/50"
+                className="appearance-none relative block w-full pl-12 pr-4 py-4 border-2 border-transparent bg-white/60 placeholder-slate-400 text-slate-800 rounded-full focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-400 focus:bg-white sm:text-sm transition-all shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.05)]"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -106,30 +101,30 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center items-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              className="group relative w-full flex justify-center items-center py-4 px-4 border border-transparent text-sm font-bold rounded-full text-white bg-slate-900 hover:bg-slate-800 hover:shadow-[0_10px_25px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-slate-900 disabled:opacity-50 transition-all hover:-translate-y-1"
             >
               {loading ? 'Signing in...' : 'Sign in'}
-              {!loading && <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />}
+              {!loading && <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />}
             </button>
           </div>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-gray-200/50">
-          <p className="text-xs text-center text-gray-500 mb-4 uppercase tracking-wider font-bold">Demo Accounts</p>
+        <div className="mt-8 pt-6 border-t border-slate-200/50">
+          <p className="text-xs text-center text-slate-400 mb-4 uppercase tracking-widest font-bold">Demo Accounts</p>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => loadDemo('student')}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 bg-white/50 hover:bg-white hover:border-indigo-200 hover:text-indigo-700 transition-all shadow-sm"
+              className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-transparent rounded-2xl text-sm font-bold text-slate-600 bg-white/60 hover:bg-white hover:border-indigo-100 hover:text-indigo-600 transition-all hover:-translate-y-0.5"
             >
-              <User className="w-4 h-4 text-indigo-500" /> Student
+              <User className="w-4 h-4 text-indigo-400" /> Student
             </button>
             <button
               type="button"
               onClick={() => loadDemo('admin')}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 bg-white/50 hover:bg-white hover:border-purple-200 hover:text-purple-700 transition-all shadow-sm"
+              className="flex items-center justify-center gap-2 px-3 py-3 border-2 border-transparent rounded-2xl text-sm font-bold text-slate-600 bg-white/60 hover:bg-white hover:border-pink-100 hover:text-pink-600 transition-all hover:-translate-y-0.5"
             >
-              <Shield className="w-4 h-4 text-purple-500" /> Admin
+              <Shield className="w-4 h-4 text-pink-400" /> Admin
             </button>
           </div>
         </div>
