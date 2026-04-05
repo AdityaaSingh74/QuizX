@@ -1,87 +1,193 @@
 <div align="center">
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# 🚀 QuizX - Interactive AI-Powered Quiz Platform
+
+**A visually stunning, Pinterest-inspired, modern full-stack interactive quiz application.**
+Built with React, Vite, Tailwind CSS, Express, and Supabase (PostgreSQL). Features advanced glassmorphic UI, role-based access control, quiz management, real-time result tracking, and AI integration.
+
 </div>
 
-# QuizX - Interactive Quiz Platform
+---
 
-QuizX is a modern, full-stack interactive quiz application built with React, Vite, Tailwind CSS, Express, and Supabase (PostgreSQL). It features user authentication, role-based access control, quiz creation, and result tracking.
+## ✨ Core Features
 
-## Features
-
-*   **User Authentication**: Secure Sign-up and Login using JWT and bcrypt.
+*   **Premium Modern UI/UX**: Completely overhauled Pinterest-inspired interface featuring glassmorphic elements, card-based layouts, soft color gradients, and smooth Framer Motion animations.
 *   **Role-Based Access Control**:
-    *   **Admin**: Create, edit, and delete quizzes and questions. View all student results.
-    *   **Student**: Take assigned quizzes and view personal scores.
-*   **Cloud Database**: Powered by Supabase (PostgreSQL) for reliable, scalable cloud storage.
-*   **Responsive UI**: Modern interface built with Tailwind CSS and Framer Motion for smooth animations.
+    *   **Admin Dashboard**: comprehensive tools to create, edit, and delete quizzes and questions. View all user results globally.
+    *   **Student Dashboard**: Take assigned quizzes, view personal scores, and access profile analytics.
+*   **Secure Authentication**: Robust Sign-up and Login system using JSON Web Tokens (JWT) and bcrypt password hashing.
+*   **Cloud PostgreSQL Database**: Fully powered by Supabase for reliable, scalable, and responsive cloud storage.
+*   **AI Integrations**: Ready for Google GenAI text prompts and processing (via `@google/genai`).
 
-## Tech Stack
+---
 
-*   **Frontend**: React 19, React Router DOM, Tailwind CSS (v4), Framer Motion, Lucide React, Vite.
-*   **Backend**: Node.js, Express, TypeScript (tsx).
-*   **Database**: Supabase (PostgreSQL, Cloud).
-*   **Authentication**: JSON Web Tokens (JWT), validation via `bcryptjs`.
-*   **AI Integration**: Setup for Google GenAI (`@google/genai`).
+## 🛠️ Tech Stack
 
-## Prerequisites
+*   **Frontend**: React 19, React Router DOM, Tailwind CSS v4, Framer Motion, Lucide React, Vite.
+*   **Backend**: Node.js, Express, TypeScript (`tsx`).
+*   **Database**: Supabase (PostgreSQL) - cloud-based.
+*   **Authentication**: Custom JWT (JSON Web Tokens) verification, passwords securely hashed via `bcryptjs`.
 
-*   Node.js (v18 or higher recommended)
-*   npm (or yarn / pnpm)
+---
 
-## Local Development Setup
+## 📂 Project Structure
 
-1.  **Clone the Repository** and navigate to the project directory:
-    ```bash
-    cd SRS_project
-    ```
-
-2.  **Install Dependencies**:
-    ```bash
-    npm install
-    ```
-
-3.  **Environment Configuration**:
-    Copy the `.env.example` file to create a new `.env.local` or `.env` file:
-    ```bash
-    cp .env.example .env
-    ```
-    Configure the variables in the `.env` file:
-    *   `GEMINI_API_KEY`: Add your Gemini AI API key if utilizing AI features.
-    *   `JWT_SECRET`: Secret key for JWT signing.
-    *   `SUPABASE_URL` & `SUPABASE_ANON_KEY`: **(Required)** Your Supabase project URL and Anon Key.
-
-4.  **Run the Application**:
-    ```bash
-    npm run dev
-    ```
-    The application will automatically seed the following demo accounts into Supabase on first launch:
-    *   **Admin**: `admin@quizx.com` / `admin123`
-    *   **Student**: `student@quizx.com` / `student123`
-
-    *The frontend and backend will run concurrently on `http://localhost:3000`.*
-
-## Supabase Setup (Required)
-
-Before running the app, create a free project at [supabase.com](https://supabase.com) and run the following SQL in the **SQL Editor** to create the required tables:
-
-```sql
-CREATE TABLE users ( id UUID PRIMARY KEY, email TEXT UNIQUE, password TEXT, display_name TEXT, role TEXT );
-CREATE TABLE quizzes ( id UUID PRIMARY KEY, title TEXT, description TEXT, created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() );
-CREATE TABLE questions ( id UUID PRIMARY KEY, quiz_id UUID REFERENCES quizzes(id) ON DELETE CASCADE, text TEXT, option_a TEXT, option_b TEXT, option_c TEXT, option_d TEXT, correct_option TEXT );
-CREATE TABLE results ( id UUID PRIMARY KEY, user_id UUID REFERENCES users(id), quiz_id UUID REFERENCES quizzes(id), score INTEGER, total INTEGER, created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() );
+```bash
+SRS_project/
+├── .env.example        # Example environment variables
+├── package.json        # Project metadata and dependencies
+├── server.ts           # Express backend server entry point
+├── src/                # Frontend source code
+│   ├── App.tsx         # Root component & Routing
+│   ├── components/     # Reusable UI components (Navbar, UI library)
+│   ├── context/        # React context (Auth context)
+│   ├── pages/          # Full page views
+│   │   ├── AdminDashboard.tsx   # Admin overview and management 
+│   │   ├── StudentDashboard.tsx # Student quiz viewing
+│   │   ├── QuizAttempt.tsx      # Interactive quiz taking interface
+│   │   ├── Login.tsx            # User login
+│   │   ├── Register.tsx         # User registration
+│   │   └── Profile.tsx          # User profile and stats
+│   ├── services/       # API wrapper functions
+│   └── index.css       # Tailwind entry and global CSS
+└── vite.config.ts      # Vite configuration
 ```
 
-Then add your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to the `.env` file. The app will handle seeding demo accounts automatically.
+---
 
-> **Note**: Do **not** enable Row Level Security (RLS) on these tables unless you intend to manage it yourself — the app uses its own JWT-based authorization layer.
+## 📋 Prerequisites
 
-## Build for Production
+Ensure you have the following installed before starting:
+*   [Node.js](https://nodejs.org/en) (v18 or higher recommended)
+*   npm, yarn, or pnpm
+*   A [Supabase](https://supabase.com/) account (free tier works perfectly)
 
-1.  **Build the Vite package**:
-    ```bash
-    npm run build
-    ```
-2.  **Start the production server**:
-    ```bash
-    npm run start
-    ```
+---
+
+## ⚙️ Local Development Setup
+
+Follow these instructions exactly to get the project up and running locally.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/AdityaaSingh74/SRS_project.git
+cd SRS_project
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Environment Configuration
+Copy the sample environment file to create your local `.env`:
+```bash
+cp .env.example .env
+```
+
+Open `.env` and fill in the required variables:
+```env
+# Required for AI features
+GEMINI_API_KEY="your_gemini_api_key_here"
+
+# JWT Secret for Auth Token generation
+JWT_SECRET="your_secure_random_jwt_secret_here"
+
+# Supabase Configurations (Critical)
+SUPABASE_URL="your_supabase_project_url"
+SUPABASE_ANON_KEY="your_supabase_anon_key"
+VITE_SUPABASE_URL="your_supabase_project_url"
+VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY="your_supabase_anon_key"
+```
+
+### 4. Supabase Database Setup 
+Before starting the backend, you need to set up the database tables. Go to your [Supabase SQL Editor](https://supabase.com/dashboard/project/_/sql) and run the following script:
+
+```sql
+-- Users Table
+CREATE TABLE users ( 
+  id UUID PRIMARY KEY, 
+  email TEXT UNIQUE, 
+  password TEXT, 
+  display_name TEXT, 
+  role TEXT 
+);
+
+-- Quizzes Table
+CREATE TABLE quizzes ( 
+  id UUID PRIMARY KEY, 
+  title TEXT, 
+  description TEXT, 
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() 
+);
+
+-- Questions Table
+CREATE TABLE questions ( 
+  id UUID PRIMARY KEY, 
+  quiz_id UUID REFERENCES quizzes(id) ON DELETE CASCADE, 
+  text TEXT, 
+  option_a TEXT, 
+  option_b TEXT, 
+  option_c TEXT, 
+  option_d TEXT, 
+  correct_option TEXT 
+);
+
+-- Results Table
+CREATE TABLE results ( 
+  id UUID PRIMARY KEY, 
+  user_id UUID REFERENCES users(id), 
+  quiz_id UUID REFERENCES quizzes(id), 
+  score INTEGER, 
+  total INTEGER, 
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() 
+);
+```
+> **⚠️ Important Notice**: Do **not** enable Row Level Security (RLS) on these tables via the Supabase dashboard unless you rewrite the backend queries. The application currently securely handles database access through its own Express middleware and JWT validation layer.
+
+### 5. Running the Application
+To run both the Vite frontend and Express backend concurrently:
+```bash
+npm run dev
+```
+The application runs locally on `http://localhost:3000`.
+
+**Demo Accounts:**  
+On the very first launch, the app automatically seeds these credentials so you can log in immediately:
+*   **Admin Access**: Email: `admin@quizx.com` | Password: `admin123`
+*   **Student Access**: Email: `student@quizx.com` | Password: `student123`
+
+---
+
+## 📜 Available Scripts
+
+| Script | Command | Description |
+| :--- | :--- | :--- |
+| `dev` | `npm run dev` | Starts frontend (Vite) and backend (tsx server.ts) concurrently. |
+| `build` | `npm run build` | Builds the Vite frontend app for production. |
+| `start` | `npm run start` | Runs the compiled Node JS production server. |
+| `lint` | `npm run lint` | Runs TypeScript type checking without emitting files. |
+| `clean` | `npm run clean` | Removes the `dist` build directory. |
+
+---
+
+## 🎨 UI/UX Features Overview
+
+This project was recently overhauled to feature:
+- **Pinterest-Inspired Dashboards**: Information is organized in dynamic, masonry-like card layouts allowing users to digest content effortlessly.
+- **Glassmorphism Design System**: Beautiful transluscent backgrounds, frosted glass effects, and soft gradients (utilizing Tailwind's background blurs).
+- **Interactive Tour & HUD**: Inspired by modern game design, elements behave dynamically with micro-animations provided by Framer Motion, reacting precisely to hover states, focus events, and layout transitions.
+
+---
+
+## 🤝 Contributing
+1. Fork the repo.
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
+
+---
+
+> Built with ❤️ by AdityaaSingh74 and contributors.
