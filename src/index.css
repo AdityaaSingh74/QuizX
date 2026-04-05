@@ -9,7 +9,7 @@
   --shadow-button: 0 10px 25px rgba(0, 0, 0, 0.05);
 
   --animate-shimmer: shimmer 1.5s infinite;
-  
+
   /* Aurora gradient animations */
   --animate-aurora-1: aurora-1 15s ease-in-out infinite alternate;
   --animate-aurora-2: aurora-2 20s ease-in-out infinite alternate;
@@ -22,29 +22,88 @@
   }
 
   @keyframes aurora-1 {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-    50% { transform: translate(20vw, -10vh) scale(1.2); opacity: 0.8; }
-    100% { transform: translate(-10vw, 20vh) scale(1); opacity: 0.6; }
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.6;
+    }
+
+    50% {
+      transform: translate(20vw, -10vh) scale(1.2);
+      opacity: 0.8;
+    }
+
+    100% {
+      transform: translate(-10vw, 20vh) scale(1);
+      opacity: 0.6;
+    }
   }
 
   @keyframes aurora-2 {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-    50% { transform: translate(-30vw, 15vh) scale(1.3); opacity: 0.7; }
-    100% { transform: translate(15vw, -20vh) scale(1); opacity: 0.5; }
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.5;
+    }
+
+    50% {
+      transform: translate(-30vw, 15vh) scale(1.3);
+      opacity: 0.7;
+    }
+
+    100% {
+      transform: translate(15vw, -20vh) scale(1);
+      opacity: 0.5;
+    }
   }
 
   @keyframes aurora-3 {
-    0% { transform: translate(0, 0) scale(1.1); opacity: 0.6; }
-    50% { transform: translate(10vw, 25vh) scale(0.9); opacity: 0.8; }
-    100% { transform: translate(-20vw, -10vh) scale(1.2); opacity: 0.6; }
+    0% {
+      transform: translate(0, 0) scale(1.1);
+      opacity: 0.6;
+    }
+
+    50% {
+      transform: translate(10vw, 25vh) scale(0.9);
+      opacity: 0.8;
+    }
+
+    100% {
+      transform: translate(-20vw, -10vh) scale(1.2);
+      opacity: 0.6;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --background: #FAFAFA;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #4f46e5;
+    /* indigo-600 */
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #f1f5f9;
+    --accent-foreground: #0f172a;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #4f46e5;
+    --radius: 0.5rem;
   }
 }
 
 body {
-  background-color: #FAFAFA;
+  background-color: var(--background);
+  color: var(--foreground);
   overflow-x: hidden;
   font-family: var(--font-sans);
-  color: #334155; /* slate-700 */
 }
 
 /* Base utility for glass cards */
@@ -55,4 +114,3 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: var(--shadow-glass);
 }
-

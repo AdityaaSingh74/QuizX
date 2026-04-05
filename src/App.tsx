@@ -8,6 +8,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import QuizAttempt from './pages/QuizAttempt';
 import Profile from './pages/Profile';
 import Navbar from './components/Navbar';
+import Demo from './pages/Demo';
 
 const ProtectedRoute = ({ children, role }: { children: React.ReactNode, role?: 'student' | 'admin' }) => {
   const { user, loading } = useAuth();
@@ -49,6 +50,7 @@ const AppRoutes = () => {
                 <Profile />
               </ProtectedRoute>
             } />
+            <Route path="/demo" element={<Demo />} />
           </Routes>
         </main>
       </div>
