@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto space-y-8">
+    <div class="glass-panel p-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome, {{ user.display_name }}!</h1>
+        <p class="text-gray-500">
+            {% if user.role == 'admin' %}
+            Manage quizzes and view student results.
+            {% else %}
+            Ready to test your knowledge? Choose a quiz below.
+            {% endif %}
+        </p>
+    </div>
+
+    {% if user.role == 'admin' %}
+    <div class="glass-panel p-8">
+        <h2 class="text-xl font-semibold mb-4">Create New Quiz</h2>
+        <form method="POST" action="/api/quizzes" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <input type="text" name="title" required class="w-full px-3 py-2 border rounded-md focus:ring-primary focus:border-primary">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea name="description" rows="3" class="w-full px-3 py-2 border rounded-md focus:ring-primary focus:border-primary"></textarea>
+            </div>
+            <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">Create Quiz</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="grid md:grid-cols-2 gap-8">
+        <div class="glass-panel p-8">
+            <h2 class="text-xl font-semibold mb-4">Available Quizzes</h2>
+            {% if quizzes %}
+                <ul class="space-y-3">
+                {% for quiz in quizzes %}
+                    <li class="p-4 border rounded-md hover:bg-gray-50 transition-colors flex justify-between items-center bg-white/50">
+                        <div>
+                            <h3 class="font-medium text-gray-900">{{ quiz.title }}</h3>
+                            <p class="text-sm text-gray-500">{{ quiz.description }}</p>
+                        </div>
+                        <div class="flex gap-2">
+                        {% if user.role == 'admin' %}
+                            <a href="/dashboard/quiz/{{ quiz.id }}/edit" class="text-sm px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">Edit</a>
+                            <form method="POST" action="/api/quizzes/{{ quiz.id }}/delete" class="inline">
+                                <button type="submit" class="text-sm px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200" onclick="return confirm('Delete this quiz?')">Delete</button>
+                            </form>
+                        {% else %}
+                            <a href="/quiz/{{ quiz.id }}" class="text-sm px-4 py-2 bg-primary text-white rounded hover:bg-primary/90">Take Quiz</a>
+                        {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">No quizzes available right now.</p>
+            {% endif %}
+        </div>
+
+        <div class="glass-panel p-8">
+            <h2 class="text-xl font-semibold mb-4">{% if user.role == "admin" %}All Results{% else %}Your Results{% endif %}</h2>
+            {% if results %}
+                <ul class="space-y-3">
+                {% for result in results %}
+                    <li class="p-4 border rounded-md bg-white/50 flex justify-between items-center">
+                        <div>
+                            <span class="font-medium">{{ result.quiz_title }}</span>
+                            {% if user.role == 'admin' %}
+                            <span class="text-sm text-gray-500 ml-2">by {{ result.user_name }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-lg {% if result.score >= result.total * 0.7 %}text-green-600{% else %}text-orange-500{% endif %}">
+                                {{ result.score }} / {{ result.total }}
+                            </div>
+                            <div class="text-xs text-gray-500">{{ result.created_at[:10] }}</div>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">No results yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
